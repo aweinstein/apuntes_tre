@@ -1,0 +1,667 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[paper=letter, fontsize=11pt]{scrartcl}
+\usepackage[spanish,es-noquoting]{babel}
+%\usepackage[english]{babel}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc}
+\usepackage{fourier} % Use the Adobe Utopia font for the document
+
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered,
+                                                 % the default font and small
+                                                 % caps
+\usepackage[american]{circuitikz}
+\usepackage{subfig}
+\usepackage{fancyhdr} % Custom headers and footers
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=blue
+}
+
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom
+                       % headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as
+             % the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+% \numberwithin{equation}{section} % Number equations within sections (i.e. 1.1,
+%                                  % 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2,
+%                                % 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2,
+%                               % 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule
+                                                % command with 1 argument of
+                                                % height
+
+\title{
+\normalfont \normalsize
+\textsc{Universidad de Valparaíso, Departamento de Ingeniería Biomédica} \\
+[25pt]
+%\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Teoría de Redes \\ % The assignment title
+\LARGE Repaso
+%\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Alejandro Weinstein}
+
+\date{\normalsize 1\ts{er} semestre 2013} % Today's date or a custom date
+
+\input{../macros.tex}
+
+\begin{document}
+
+\maketitle
+
+Lo siguiente es material visto anteriormente en la asignatura Bases de
+Electromedicina.
+
+\section{Voltaje, corriente y potencia}
+
+Las dos cantidades fundamentales en el estudio de las redes eléctricas son el
+\emph{voltaje}, también llamado \emph{tensión} o \emph{potencial eléctrico}, y
+la corriente. El voltaje se mide en \emph{volts} y la corriente en
+\emph{amperes}. Estas unidades se abrevian como $[V]$ y $[A]$,
+respectivamente. El voltaje es una cantidad que se define entre dos puntos en
+el espacio; siempre hablamos del ``voltaje entre dos puntos''. La corriente es
+una cantidad que se define usando la sección transversal de un elemento;
+siempre hablamos de la ``corriente a través de un elemento''. El voltaje se
+denota por $V$ cuando es constante, o por $v$ cuando es una función en el
+tiempo. Análogamente, la corriente se denota por $I$ cuando es constante, o por
+$i$ cuando es función del tiempo. En ocasiones, para enfatizar la dependencia
+del tiempo, el voltaje y la corrientes se denotan por $v(t)$ e $i(t)$,
+respectivamente.
+
+La otra cantidad relevante es la \emph{potencia eléctrica}. Esta cantidad está
+dada por el producto del voltaje y la corriente. Dependiendo de la polaridad
+con que se definen el voltaje y la corriente en un elemento, y del signo de la
+potencia, la potencia es disipada o entregada por el elemento. La potencia se
+mide en \emph{watt}; esta unidad se abrevia como $[W]$. La potencia se denota
+por $P$ cuando es constante, o por $p$ cuando es una función del tiempo. Al
+igual que para el voltaje y la corriente, para enfatizar la dependencia del
+tiempo, en ocasiones la potencia se denota por $p(t)$. En resumen, podemos
+escribir
+%
+\begin{gather}
+  \label{eq:pot}
+  P = V I \\
+  p(t) = v(t) i(t).
+\end{gather}
+
+%TODO
+% conexion a tierra
+
+\section{Dispositivos  eléctricos}
+
+Un \emph{circuito eléctrico}, o simplemente un \emph{circuito}, es un conjunto
+de elementos eléctricos interconectados entre sí. En esta asignatura estudiamos
+circuitos formados por la interconexión de componentes de dos
+terminales.\footnote{Existen componentes electrónicos de más de dos terminales,
+  \eg, transistores, amplificadores operacionales, \etc, pero estos componentes
+  están fuera del alcance del curso. Uno también puede considerar los
+  transformadores como dispositivos de cuatro terminales. Por simplicidad
+  asumiremos que los transformadores son inductores acoplados magnéticamente.}
+Estos dispositivos son: resistencias, condensadores, inductores, fuentes de
+voltaje, y fuentes de corriente. La figura \ref{fig:RLCsymb} muestra los símbolos
+respectivos.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[R, v=$v_R$, i>^=$i_R$, l=$R$, *-*] (2.5,0);
+    \draw (3,0) to[C, v=$v_C$, i>^=$i_C$, l=$C$, *-*] (5.5,0);
+    \draw (6,0) to[L, v=$v_L$, i>^=$i_L$, l=$L$, *-*] (8.5,0);
+  \end{circuitikz}
+  \caption{Símbolos de resistencia, condensador e inductor.}
+\label{fig:RLCsymb}
+\end{figure}
+
+Los dispositivos eléctricos de dos terminales se caracterizan por la relación
+voltaje-corriente entre sus terminales. Las siguientes ecuaciones describen
+estas relaciones para las resistencias, condensadores, e inductancias,
+respectivamente:
+%
+\begin{gather}
+  v_R = R i_R   \label{eq:Rvi}\\
+  i_C = C \frac{dv_c}{dt} \label{eq:Cvi}\\
+  v_L = L \frac{di_L}{dt} \label{eq:Lvi}.
+\end{gather}
+%
+Las constantes $R$, $L$, y $C$ que aparecen en estas ecuaciones son parámetros
+cuyo valor depende del elemento en particular que se utilice. La constante $R$
+se conoce como resistencia y se mide en \emph{ohms}. La constante $C$ se conoce
+como capacitancia y se mide en \emph{faradio}. La constante $L$ se conoce como
+inductancia y se mide en \emph{henry}. Estas unidades se abrevian usando los
+símbolos $[\Omega]$, $[F]$, y $[L]$, respectivamente. La ecuación
+\eqref{eq:Rvi} se conoce como \emph{Ley de Ohm}. Las relaciones
+voltaje-corriente para los condensadores e inductores \eqref{eq:Cvi} y
+\eqref{eq:Lvi} también se pueden escribir como
+%
+\begin{gather}
+  v_C(t) = \frac{1}{C} \int_0^t i_c(x) \ dx + v_c(0) \label{eq:Civ}\\
+  i_L(t) = \frac{1}{L} \int_0^t v_L(x) \ dx + i_L(0). \label{eq:Liv}
+\end{gather}
+
+La potencia disipada en una resistencia se puede calcular fácilmente combinando
+la definición de potencia eléctrica dada por la ecuación \eqref{eq:pot} con la
+ley de Ohm:
+%
+\begin{equation}
+  \label{eq:JouleLoss}
+  p_R = v_R i_R = R i_R^2 = \frac{V_R^2}{R}.
+\end{equation}
+
+Los condensadores e inductores son elementos que almacenan energía. Los
+condensadores almacenan energía en el campo eléctrico, mientras que los
+inductores lo hacen en el campo magnético. La energía almacenada está dada por
+%
+\begin{gather}
+  \label{eq:LCener}
+  E_C = \frac{1}{2} C v_C^2 \\
+  E_L = \frac{1}{2} L i_L^2,
+\end{gather}
+%
+donde $E_C$ y $E_L$ son la energía almacenada en un condensador de capacitancia
+$C$ faradios y un inductor de inductancia $L$ henrys, respectivamente.
+
+Las fuente de voltaje definen un voltaje entre sus terminales que no depende de
+la corriente que pasa a través de ellas. Análogamente, las fuentes de corriente
+definen una corriente a través de ellas que no dependen del voltaje entre sus
+terminales. La figura \ref{fig:sourceSymb} muestra los símbolos
+correspondientes.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[V=$V_s$, *-*] (0,2);
+    \draw (2,0) to[sV=$v_s$, *-*] (2,2);
+    \draw (4,0) to[I=$I_s$, *-*] (4,2);
+    \draw (6,0) to[sI=$i_s$, *-*] (6,2);
+  \end{circuitikz}
+  \caption{Símbolos de las fuentes independientes de voltaje y corriente.}
+\label{fig:sourceSymb}
+\end{figure}
+
+Para modelar ciertos dispositivos electrónicos, \eg transistores y
+amplificadores operacionales, es útil definir las fuentes
+dependientes---también llamadas fuentes controladas. Las fuente de voltaje
+dependiente definen un voltaje entre sus terminales que no depende de la
+corriente que pasa a través de ellas, y que es función de un voltaje o
+corriente definido en el circuito. Análogamente, las fuentes de corriente
+definen una corriente a través de ellas que no dependen del voltaje entre sus
+terminales, y que es función de un voltaje o corriente definido en el
+circuito. La figura \ref{fig:depSourceSymb} muestra los símbolos
+correspondientes.
+
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[cV=$V_s$, i>^=$i$, *-*] (0,2);
+    \draw (2,0) to[csV=$v_s$, i>^=$i$, *-*] (2,2);
+    \draw (4,0) to[cI=$I_s$, *-*] (4,2);
+    \draw (6,0) to[csI=$i_s$, *-*] (6,2);
+  \end{circuitikz}
+  \caption{Símbolos de las fuentes dependientes de voltaje y corriente.}
+\label{fig:depSourceSymb}
+\end{figure}
+
+% TODO:
+% Symbols
+% Note about dependent independent sources
+% Passive vs active
+% Lumped vs distributed
+% Energia almacenada en un condensador/inductor
+
+
+\section{Leyes de circuitos}
+
+El problema central en el análisis de redes eléctricas es, dado un circuito,
+encontrar el valor del voltaje y corriente correspondiente a cada
+elemento. Además de satisfacer la relación voltaje-corriente para cada
+elemento, los voltajes y corrientes en el circuito deben satisfacer las
+\emph{leyes de Kirchhoff}.
+
+Para todo nodo de un circuito, la ley de corriente de Kirchhoff (LCK) establece
+que
+%
+\begin{equation}
+  \label{eq:LCK}
+  \sum_{k=1}^n i_k = 0,
+\end{equation}
+%
+donde $i_k$ es la $k$-ésima corriente que entra al nodo, y $n$ es el número de
+ramas que tiene el nodo. Esta ecuación asume que las corrientes están definidas
+ya sea como todas entrando al nodo, o todas saliendo del nodo. Si una corriente
+está definida en el sentido opuesto, debe entrar con signo negativo en la
+sumatoria.
+
+Para todo lazo cerrado de un circuito, la ley de voltaje de Kirchhoff (LVK)
+establece que
+%
+\begin{equation}
+  \label{eq:LVK}
+  \sum_{k=1}^n v_k = 0,
+\end{equation}
+%
+donde $v_k$ es el $k$-ésimo voltaje en el lazo, y $n$ es el número de elementos
+en el lazo. Al igual que para la LCK, esta ecuación requiere ser consistente
+con los signos de los voltajes.
+
+\begin{ex}
+  Encuentre $v_R$ en el circuito que sigue.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,0) to[V=$V$] (0,2)
+    to[short] (2,2)
+    to[R, v=$v_R$] (2,0)
+    to[short](0,0);
+  \end{circuitikz}
+\end{figure}
+
+Aplicando LVK se tiene
+%
+\begin{equation*}
+  V - v_R = 0 \Rightarrow v_R = V.
+\end{equation*}
+\end{ex}
+
+
+\begin{ex}[Divisor de voltaje]
+  Encuentre $v_{R2}$ en el circuito que sigue.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,-1) to[V=$V$, i=$i$] (0,3)
+    to[short] (2,3)
+    to[R=$R_1$, v=$v_{R1}$] (2,1)
+    to[R=$R_2$, v=$v_{R2}$] (2,-1)
+    to[short](0,-1)
+  ;\end{circuitikz}
+\end{figure}
+
+Aplicando LVK y ley de Ohm se tiene
+%
+\begin{gather*}
+  V - v_{R1} - v_{R2} = 0 \Rightarrow v_{R1} + v_{R2} = V
+  \Rightarrow R_1 i + R_2 i = V \Rightarrow i = \frac{V}{R_1 + R_2}\\
+  \Rightarrow v_{R2} = \frac{R_2}{R_1 + R_2} V.
+\end{gather*}
+\end{ex}
+
+\begin{ex}[Resistencia en serie]
+  Para el circuito que sigue, encuentre la resistencia equivalente entre los
+  terminales $A$ y $B$.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,4) node[anchor=east] {$A$}
+    to[short, o-, i=$i$] (1,4)
+    to[R=$R_1$, v=$v_{R1}$] (1,2)
+    to[R=$R_2$, v=$v_{R2}$] (1,0)
+    to[short, -o] (0,0) node[anchor=east] {$B$}
+  ;\end{circuitikz}
+\end{figure}
+
+Aplicando LVK y ley de Ohm se tiene
+\begin{equation*}
+R_1 i + R_2 i = v \Rightarrow R_{eq} = \frac{v_{AB}}{i} = R_1 + R_2.
+\end{equation*}
+\end{ex}
+
+\begin{ex}[Resistencia en paralelo]
+  Para el circuito que sigue, encuentre la resistencia equivalente entre los
+  terminales $A$ y $B$.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz} \draw
+    (0,3) node[anchor=east] {$A$}
+    to[short, o-, i=$i$] (1,3)
+    to[R=$R_1$, v=$v_{R1}$, i>^=$i_1$] (1,0)
+    to[short, -o] (0,0) node[anchor=east] {$B$}
+    (1,3) to[short] (3,3)
+    to[R=$R_2$, v=$v_{R2}$, i>^=$i_2$] (3,0)
+    to[short] (1,0)
+  ;\end{circuitikz}
+\end{figure}
+
+Aplicando LVK, LCK y ley de Ohm se tiene
+\begin{equation*}
+  v_{AB} = v_{R1} = v_{R2};\ i = i_1 + i_2 = \frac{V_{AB}}{R_1} +
+  \frac{V_{AB}}{R_1} \ \Rightarrow
+  R_{eq} = \frac{v_{AB}}{i} = \left(\frac{1}{R_1} + \frac{1}{R_2} \right)^{-1}
+  = \frac{R_1 R_2}{R_1 + R_2} := R_1 \parallel R_2.
+\end{equation*}
+\end{ex}
+
+% TODO:
+% Ejemplos
+% Divisor de corriente
+
+\section{Métodos de análisis}
+
+En un circuito con sólo fuentes y resistencias, la combinación de la
+característica voltaje-corriente de todos los elementos junto con las leyes de
+Kirchhoff, da paso a un sistema de ecuaciones lineales.\footnote{Si además de
+  resistencias el circuito contiene condensadores o inductores, uno termina con
+  un sistema de ecuaciones diferenciales.} Los siguientes son los dos métodos
+usados comúnmente para encontrar estas ecuaciones.
+
+El Método de Corrientes de Malla (MCM) aplica la LVK en cada malla del
+circuito. Para cada malla se define una corriente que completa un lazo
+cerrado. Aunque no es estrictamente necesario, es conveniente definir todas las
+corrientes de malla en el sentido de las agujas del reloj. Cuando una rama del
+circuito es compartida por dos mallas, la corriente a través de esa rama es la
+suma---considerando el signo---de las corrientes de malla respectivas. Una vez
+que se definen las corrientes, se aplica la LVK para cada rama, obteniéndose un
+sistema de $n$ ecuaciones lineales, donde $n$ es el número de mallas en el
+circuito.
+
+\begin{ex}[Método de corriente de malla] Para el circuito que sigue y usando
+  MCM, encontrar las ecuaciones necesarias para encontrar todas las corrientes
+  de malla.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      %\draw[help lines] (0,0) grid (6,3);
+      \draw (0,0) to[V=$V_A$] (0,3)
+       to[R=$R_1$, v<=$v_{R1}$] (3,3)
+       to[R=$R_3$, v=$v_{R3}$] (6,3);
+       \draw (6,0) to[V_=$V_B$] (6,3);
+       \draw (0,0) to[short] (6,0);
+       \draw (3,0) to[R=$R_2$, v>=$v_{R2}$] (3,3);
+       \draw [thick, <-] (2,1.5) arc(0:270:0.70);
+       \draw (1.4,1.4) node {$i_1$};
+       \draw [thick, <-] (5.4,1.5) arc(0:270:0.70);
+       \draw (4.8,1.4) node {$i_2$};
+    \end{circuitikz}
+  \end{figure}
+\end{ex}
+
+Aplicando LVK y ley de Ohm en cada malla se obtiene
+%
+\begin{gather*}
+  v_A - v_{R1} - v_{R2} = 0 \Rightarrow v_A - R_1i_1 - R_2(i_1 - i_2) = 0 \\
+  v_{R2} - v_{R3} - v_B = 0 \Rightarrow R_2(i_1 - i_2) - R_3i_2 - v_B = 0.
+\end{gather*}
+
+El Método de Voltaje de Nodos (MVN) aplica la LCK en los nodo del circuitos. En
+forma arbitraria se define uno de los nodos del circuito como nodo de
+referencia. Luego, para cada uno de los nodos restantes se define un voltaje
+entre el nodo y el nodo de referencia. Usando estos voltajes, se aplica la LCK
+en cada nodo, obteniéndose un sistema de $n - 1$ ecuaciones lineales, donde $n$
+es el número de nodos en el circuito.
+
+\begin{ex}[Método de voltaje de nodo] Para el circuito que sigue y usando MVN,
+  encontrar las ecuaciones necesarias para encontrar todos los voltajes de
+  nodo.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      %\draw[help lines] (0,0) grid (6,3);
+      \draw (0,0) to[V=$V_A$, *-*] (0,3)
+       to[R=$R_1$, *-*] (3,3)
+       to[R=$R_3$, *-*] (6,3)
+       to[R=$R_5$, *-*] (9,3);
+       \draw (3,0) to[R=$R_2$, *-*] (3,3);
+       \draw (6,0) to[R=$R_4$, *-*] (6,3);
+       \draw (0,0) to[short] (9,0);
+       \draw (9,0) to[V=$V_B$, *-*] (9,3);
+       \draw {[above] (0,3) node {$v_1$} (3,3) node {$v_2$}
+         (6,3) node {$v_3$} (9,3) node {$v_4$}};
+       \draw (3,0) node[below] {$v_{ref}$};
+    \end{circuitikz}
+  \end{figure}
+
+Aplicando LCK y ley de Ohm en cada nodo, y LVK en los casos particulares de
+$v_1$ y $v_4$ se obtiene
+%
+\begin{gather*}
+  \frac{v_2 - v_1}{R_1} + \frac{v_2}{R_2} + \frac{v_2 - v_3}{R_3} = 0 \\
+  \frac{v_3 - v_2}{R_3} + \frac{v_3}{R_4} + \frac{v_3 - v_4}{R_5} = 0 \\
+  v_1 = V_A \\
+  v_4 = V_B.
+\end{gather*}
+\end{ex}
+
+\section{Otros conceptos}
+
+\subsection{El principio de superposición}
+
+Una propiedad de los sistemas lineales en general, y de los circuitos lineales
+en particular, es que las variables del sistema pueden ser calculadas como la
+suma de los efectos de cada variable independiente. En el caso de los circuitos
+lineales, esto se traduce en que los voltajes y corrientes se pueden calcular
+como la suma de los efectos de las fuentes independientes. Esta propiedad se
+conoce como \emph{principio de superposición}. Para usar este principio, se
+calcula el efecto de cada fuente independiente individualmente, con el resto de
+las fuentes ``apagadas''. Una fuente se considera como ``apagada'' cuando la
+variable asociada a ésta es igual a cero. En el caso de una fuente de voltaje
+independiente, esto es equivalente a reemplazar la fuente por un
+cortocircuito. En el caso de una fuente de corriente independiente, esto es
+equivalente a reemplazar la fuente por un circuito abierto.
+
+\begin{ex}[Principio de superposición] Usando el principio de superposición,
+  encuentre el voltaje $v_{R2}$.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      \draw (0,0) to[V=$V_A$] (0,3)
+       to[R=$R_1$] (3,3)
+       to[R=$R_3$] (6,3);
+       \draw (6,0) to[V_=$V_B$] (6,3);
+       \draw (0,0) to[short] (6,0);
+       \draw (3,0) to[R=$R_2$, v>=$v_{R2}$] (3,3);
+    \end{circuitikz}
+  \end{figure}
+
+  \begin{enumerate}[label=\roman*]
+  \item Efecto de $V_A$ ($V_B$ apagada)
+
+  El circuito que sigue corresponde a esta condición.  Con $V_B$ apagada, las
+  resistencias $R_2$ y $R_3$ quedan en paralelo, y el efecto del voltaje $V_A$
+  sobre $v_{R2}$ se puede calcular usando un divisor de voltaje.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      \draw (0,0) to[V=$V_A$] (0,3)
+       to[R=$R_1$,] (3,3)
+       to[R=$R_3$] (6,3);
+       \draw (6,0) to[short] (6,3);
+       \draw (0,0) to[short] (6,0);
+       \draw (3,0) to[R=$R_2$, v>=$v^A_{R2}$] (3,3);
+    \end{circuitikz}
+  \end{figure}
+
+  \begin{equation*}
+    v^A_{R2} = \frac{R_2 \parallel R_3}{ (R_2 \parallel R_3) + R_1} V_A.
+  \end{equation*}
+
+  \item Efecto de $V_B$ ($V_A$ apagada)
+
+    El circuito que sigue corresponde a esta condición. Con $V_A$ apagada, las
+    resistencias $R_1$ y $R_2$ quedan en paralelo, y el efecto del voltaje
+    $V_B$ sobre $v_{R2}$ se puede calcular usando un divisor de voltaje.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      \draw (0,0) to[short] (0,3)
+       to[R=$R_1$] (3,3)
+       to[R=$R_3$] (6,3);
+       \draw (6,0) to[V_=$V_B$] (6,3);
+       \draw (0,0) to[short] (6,0);
+       \draw (3,0) to[R=$R_2$, v>=$v^B_{R2}$] (3,3);
+    \end{circuitikz}
+  \end{figure}
+
+  \begin{equation*}
+    v^B_{R2} = \frac{R_1 \parallel R_2}{ (R_1 \parallel R_2) + R_3} V_B.
+  \end{equation*}
+  \end{enumerate}
+
+Finalmente, el voltaje $v_{R2}$ se calcula como la superposición de los dos
+voltajes anteriores:
+%
+\begin{equation*}
+  v_{R2} = v^A_{R2} + v^B_{R2} = \frac{R_2 \parallel R_3}{ (R_2 \parallel R_3)
+    + R_1} V_A + \frac{R_1 \parallel R_2}{ (R_1 \parallel R_2) + R_3} V_B.
+\end{equation*}
+\end{ex}
+
+
+\subsection{Equivalente Thévenin}
+
+El \emph{equivalente Thévenin} permite representar una red de múltiples
+elementos por tan sólo una fuente de voltaje en serie con una resistencia. Dado
+un circuito, esta red equivalente se encuentra realizando los siguientes
+paso. Primero se definen dos subredes $A$ y $B$, tal que estas subredes están
+conectadas a través de un par de terminales. Defina el voltaje de terminales
+abiertos $v_{th}$ como el voltaje que aparecería entre estos dos terminales de
+la red $A$ si la red $B$ se desconectara. Luego ``apague'' todas la fuentes
+independientes---es decir, reemplace todas la fuentes independientes de voltaje
+por un cortocircuito, y todas las fuentes independientes de corriente por un
+circuito abierto---y calcule la resistencia equivalente entre los dos
+terminales de la red $A$ bajo estas condiciones. Llame a esta resistencia
+equivalente $R_{th}$. La red Thévenin equivalente está dada por una fuente de
+voltaje de valor $V_{th}$ en serie con una resistencia de valor $R_{th}$.
+
+\begin{ex}[Equivalente Thévenin] Encuentre el equivalente Thévenin de la red
+  conectada a la izquierda de los terminales $T_1$ y $T_2$.
+
+  \begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+      \draw (0,0) to[V=$V_A$] (0,3)
+       to[R=$R_1$,] (3,3)
+       to[R=$R_2$] (3,0)
+       to[short] (0,0);
+      \draw (3,3) to[short, -*] (4.5,3) node[above] {$T_1$}
+      to[short] (6,3)
+      to[R=$R_L$] (6,0)
+      to[short, -*] (4.5,0) node[below] {$T_2$}
+      to[short] (3,0);
+    \end{circuitikz}
+  \end{figure}
+
+Si se desconecta $R_2$, el voltaje entre los terminales $T_1$ y $T_2$ está dado
+por el divisor de voltaje
+%
+\begin{equation*}
+  v_{th} = \frac{R_2}{R_1 + R_2} V_A.
+\end{equation*}
+%
+Al apagar la fuente de voltaje $V_A$, la resistencia equivalente de la red
+conectada a la izquierda de los terminales está dada por la conexión en
+paralelo de $R_1$ y $R_2$:
+%
+\begin{equation*}
+  R_{th} = R_1 \parallel R_2.
+\end{equation*}
+\end{ex}
+
+
+% \section{Matemáticas}
+
+% Los siguientes son algunos de los conceptos matemáticos utilizados en el
+% análisis de redes eléctricas.
+
+% \subsection{Números complejos}
+
+% Un numero o variable compleja se define como $z = a + b j$, donde\footnote{En
+%   matemáticas normalmente se define $i:=\sqrt{-1}$. Dado que en teoría de redes
+%   la variable $i$ se usa para denotar la corriente, usamos $j$ en vez de $i$.}
+% $j:=\sqrt{-1}$ y $a,b \in \real$. Denotamos por $\complex$ al conjunto de
+% números complejos, \ie, $z \in \complex$. Esta forma de representar $z$ se
+% conoce como forma rectangular. La variable compleja $z \in \complex$ se puede
+% escribir en coordenadas polares, también conocida como forma de
+% \emph{Stenmetz}, como
+% %
+% \begin{equation}
+%   \label{eq:polarZ}
+%   z = r \angle \theta,
+% \end{equation}
+% %
+% donde
+% %
+% \begin{gather}
+%   r = \sqrt{a^2 + b^2}\label{eq:rAngle}\\
+%   \theta = \arctan{\frac{b}{a}}.
+% \end{gather}
+
+% La fórmula de Euler $e^{j\theta} = \cos \theta + j \sin \theta$ permite
+% representar la variable compleja $z$ como
+% %
+% \begin{equation}
+%   \label{eq:zExp}
+%   z = r \cos \theta + j r \sin \theta = r e^{j\theta}.
+% \end{equation}
+
+% La suma de $z_1 = a_1 + b_1 j$  y $z_2 = a_2 + b_2 j$ está dada por
+% %
+% \begin{equation}
+%   \label{eq:complexSum}
+%   z_1 + z_2 = (a_1 + a_2) + (b_1 + b_2) j.
+% \end{equation}
+% %
+% El producto de $z_1 = r_1 \angle \theta_1j$ y $z_2 = r_2 \angle \theta_2$ está
+% dada por
+% %
+% \begin{equation}
+%   \label{eq:complexProd}
+%   z_1  z_2 = (r_1  r_2) \angle (\theta_1 + \theta_2).
+% \end{equation}
+
+% \subsection{Cálculo}
+
+% \subsection{Matrices}
+
+%303-995-4540
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% Local IspellDict: castellano
+%%% End:

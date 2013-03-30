@@ -1,0 +1,528 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[paper=letter, fontsize=11pt]{scrartcl}
+\usepackage[spanish,es-noquoting]{babel}
+%\usepackage[english]{babel}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc}
+\usepackage{fourier} % Use the Adobe Utopia font for the document
+
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered,
+                                                 % the default font and small
+                                                 % caps
+\usepackage[american]{circuitikz}
+\usetikzlibrary{matrix}
+
+\usepackage{subfig}
+\usepackage{fancyhdr} % Custom headers and footers
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=blue
+}
+
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom
+                       % headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as
+             % the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+% \numberwithin{equation}{section} % Number equations within sections (i.e. 1.1,
+%                                  % 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2,
+%                                % 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2,
+%                               % 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule
+                                                % command with 1 argument of
+                                                % height
+
+\title{
+\normalfont \normalsize
+\textsc{Universidad de Valparaíso, Departamento de Ingeniería Biomédica} \\
+[25pt]
+%\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Teoría de Redes \\ % The assignment title
+\LARGE Señales y Formas de Onda
+%\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Alejandro Weinstein}
+
+\date{\normalsize 1\ts{er} semestre 2013} % Today's date or a custom date
+
+\input{../macros.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Algunas señales elementales}
+
+\begin{defi}[Señal periódica]
+
+La señal $v(t)$ es periódica con período $T$ si
+%
+\begin{equation}
+\label{eq:periodic}
+  v(t) = v(t + T) \text{ para todo } t.
+\end{equation}
+
+\end{defi}
+
+Si $v(t)$ es periódica, entonces $v(t) = v(t + kT), k \in \mathbb{Z}$, para
+todo $t$.
+
+\begin{defi}[Señal sinusoidal]
+  Una señal sinusoidal está dada por
+  %
+  \begin{equation}
+    v(t) = A \cos( \omega t - \phi),
+  \end{equation}
+%
+  donde $A$ es la amplitud, $\omega$ es la frecuencia angular, medida en
+  radianes por segundo, y $\phi$ es el ángulo de fase, medido en radianes.
+\end{defi}
+
+La Figura \ref{fig:sinusoid} muestra la forma de onda correspondiente.
+
+La frecuencia angular $\omega$ se relaciona con la frecuencia $f$, medida en
+\emph{Hertz}, y el período de la sinusoide $T$, medido en segundos, a través de
+las siguientes relaciones:
+%
+\begin{equation}
+  \omega = 2 \pi f = \frac{2\pi}{T}.
+\end{equation}
+
+El ángulo de fase $\phi$ se relaciona con el retardo de tiempo $\tau$, medido
+en segundos, a través de la relación
+%
+\begin{equation}
+  \tau = \frac{\phi}{\omega}.
+\end{equation}
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=3, yscale=1.2]
+    \draw [->] (-0.5,0) -- (1.7,0);
+    \draw [->] (0,-1.5) -- (0,1.5);
+    \draw (0,1.5) node[above] {$v(t)$};
+    \draw (1.7,0) node[above] {$t$};
+    \draw [dotted](-0.5,1) -- (1.5,1);
+    \draw [dotted](-0.5,-1) -- (1.5,-1);
+    \draw [blue, ultra thick, domain=-0.5:1.5, samples=100] plot
+    (\x, {cos(2*pi*\x r - 60)});
+    \draw (0.03,1) node[above] {$A$};
+    \draw (0.1,-1) node[below] {$-A$};
+    \draw (0,-0.2)[<->, dotted] -- (0.167,-0.2);
+    \draw (0.167,-0.2)[dotted] -- (0.167,1);
+    \draw (0.08,-0.2) node[below] {$\tau$};
+  \end{tikzpicture}
+  \caption{Señal sinusoidal $v(t) = A \cos(\omega t - \phi)$. El retardo de
+    tiempo está dado por $\tau = \frac{\phi}{\omega}$ segundos.}
+\label{fig:sinusoid}
+\end{figure}
+
+\begin{defi}[Escalón unitario] La función escalón unitario, también conocida
+  como función Heaviside, está definida como
+  \begin{equation}
+    u(t) =
+    \begin{cases}
+       0 & t < 0, \\
+       1 & t > 0.
+    \end{cases}
+  \end{equation}
+  %
+  La Figura~\ref{fig:step} muestra la forma de onda correspondiente.
+\end{defi}
+
+Existen distintas convenciones para el valor que toma la función en
+$t=0$. Algunos autores lo definen como $u(0) = \frac{1}{2}$, mientras que otros
+lo hacen como $u(0)=1$. También se puede considerar que $u(0)$ es
+indeterminado. En lo que sigue del curso esta distinción no es relevante.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=2, yscale=1.2]
+    \draw [->] (-2,0) -- (2,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[above] {$u(t)$};
+    \draw (2,0) node[above] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (0,0)
+    to(0,1)  to(2,1);
+    \draw (0,1) node[left] {1};
+  \end{tikzpicture}
+  \caption{Escalón unitario $u(t)$.}
+\label{fig:step}
+\end{figure}
+
+\begin{defi}[Rampa unitaria] La función rampa unitaria está definida como
+  \begin{equation}
+    r(t) =
+    \begin{cases}
+       0 & t < 0, \\
+       t & t > 0.
+    \end{cases}
+  \end{equation}
+  %
+  La Figura~\ref{fig:step} muestra la forma de onda correspondiente.
+\end{defi}
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=2, yscale=1.2]
+    \draw [->] (-1.5,0) -- (1.5,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[above] {$r(t)$};
+    \draw (1.5,0) node[above] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (0,0)
+    to(1.5,1.5);
+    \draw (0,1) node[left] {1} (1,0) node[below] {1};
+    \draw [dotted](0,1) -- (1,1) -- (1,0);
+  \end{tikzpicture}
+  \caption{Rampa unitaria $r(t)$.}
+\label{fig:rampa}
+\end{figure}
+
+
+\begin{defi}[Delta Dirac] El delta Dirac está definido como
+  %
+  \begin{equation}
+    \delta(t) = \lim_{T \to 0} \delta_T(t),
+  \end{equation}
+\end{defi}
+%
+donde $\delta_T(t)$ está dado por
+%
+\begin{equation}
+  \delta_T(t) =
+  \begin{cases}
+    0 & t < 0,\\
+    \frac{1}{T} & 0 \leq t < T,\\
+    0 & T \geq 0.
+  \end{cases}
+\end{equation}
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=2, yscale=1.2]
+    \matrix[column sep=1cm]{
+    \draw [->] (-0.5,0) -- (1.6,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,2.4); % y-axis
+    \draw (0,2.4) node[above] {$\delta_T(t)$};
+    \draw (1.6,0) node[above] {$t$};
+    \draw [blue, ultra thick] (-0.5,0) -- (0,0)
+    to(0,1) to (1,1) to (1,0) to (1.5,0);
+    \draw (0,1) node[left] {$\frac{1}{T_1}$} (1,0) node[below] {$T_1$};
+    \draw [red, thick] (-0.5,0) -- (0,0)
+    to(0,2) to (0.5,2) to (0.5,0) to (1.5,0);
+    \draw (0,2) node[left] {$\frac{1}{T_2}$} (0.5,0) node[below] {$T_2$}; &
+    %
+    \draw [->] (-0.5,0) -- (0.5,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[above] {$\delta(t)$};
+    \draw (0.5,0) node[above] {$t$};
+    \draw [->, blue, ultra thick](0,0) -- (0,1);
+    \draw (0,1) node[left] {1}; \\
+    };
+  \end{tikzpicture}
+  \caption{Pulso $\delta_T(t)$ para $T_2 < T_1$ y delta Dirac $\delta(t)$
+    simbolizado por una flecha de largo unitario.}
+\label{fig:dirac}
+\end{figure}
+
+La Figura~\ref{fig:dirac} muestra la función $\delta_T(t)$ para dos valores
+distintos de $T$ $T_1$ y $T_2$, con $T_2 < T_1$. El delta Dirac se simboliza
+con una flecha de largo unitario localizada en $t=0$, como lo muestra la misma
+figura.
+
+El delta Dirac satisface las siguientes propiedades:
+%
+\begin{gather}
+  \delta(t) = 0 \text{ para todo } t \neq 0 \\
+  \int_{-\infty}^\infty \delta(t) \ dt = 1 \\
+  \int_{-\infty}^\infty \delta(t - \tau) v(t) \ dt = v(\tau).
+\end{gather}
+
+El delta Dirac, el escalón unitario y la rampa unitaria están relacionados por
+las expresiones que siguen.
+%
+\begin{equation*}
+  u(t) = \int_{-\infty}^t \delta(x) \ dx; \quad
+  r(t) = \int_{-\infty}^t u(x) \ dx.
+\end{equation*}
+
+\begin{defi}[Exponencial]
+
+La función exponencial está definida como
+%
+\begin{equation}
+  v(t) = e^{at} \quad a \in \real.
+\end{equation}
+%
+La Figura~\ref{fig:exp} muestra la forma de onda correspondiente.
+\end{defi}
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=2, yscale=0.4]
+    \draw [->] (-1,0) -- (2,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,8); % y-axis
+    \draw (0,8) node[right] {$v(t)$};
+    \draw (2,0) node[above] {$t$};
+    \draw [blue, ultra thick, domain=-1:2, samples=100] plot
+    (\x, {exp(\x)});
+  \end{tikzpicture}
+  \caption{Función exponencial $e^{at}$.}
+\label{fig:exp}
+\end{figure}
+
+Una de las propiedades fundamentales de las exponenciales es que sus derivadas
+y antiderivadas son también una función exponencial:
+%
+\begin{equation}
+  \frac{dv}{dt} = a e^{at}, \quad \int e^{at} = \frac{1}{a} e^{at}.
+\end{equation}
+
+Cuando el parámetro $a$ es negativo, la exponencial es decreciente, \ie, su
+valor disminuye en la medida que el tiempo aumenta. En este caso comúnmente la
+exponencial se define como
+%
+\begin{equation}
+  v(t) = e^{-t/\tau} \quad \tau > 0.
+\end{equation}
+%
+El parámetro $\tau$ se conoce como \emph{constante de tiempo}. La
+Figura~\ref{fig:expDec} muestra la forma de onda correspondiente.
+
+Las siguientes son algunas propiedades importantes de la función exponencial
+decreciente.
+%
+\begin{gather}
+  v(0) = 1 \\
+  \lim_{t \to \infty} v(t) = 0 \\
+  v(4\tau) = 0.018 \approx 0.
+\end{gather}
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=2]
+    \draw [->] (-1,0) -- (4.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,3); % y-axis
+    \draw (0,3) node[right] {$v(t)$};
+    \draw (4.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=-1:4, samples=100] plot
+    (\x, {exp(-\x)});
+  \end{tikzpicture}
+  \caption{Función exponencial decreciente $e^{-t/\tau}$.}
+\label{fig:expDec}
+\end{figure}
+
+Comúnmente en el análisis de circuitos eléctricos la función exponencial
+aparece en la forma
+%
+\begin{equation}
+  v(t) = V_F + (V_I - V_F) e^{-t/\tau}, \ t \ge 0,
+\end{equation}
+%
+donde $v(0)=V_I$ es el valor inicial, y $\lim_{t \to \infty} v(t) = V_F$ es el
+valor final, también conocido como valor en estado estacionario. La
+Figura~\ref{fig:expGen} muestra la forma de onda correspondiente.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=2]
+    \draw [->] (-0.1,0) -- (5.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,2.3); % y-axis
+    \draw (0,2.3) node[right] {$v(t)$};
+    \draw (5.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=0:5, samples=100] plot
+    (\x, {2 - 1.5 * exp(-\x)});
+    \draw (0,2) node[left] {$V_F$} (0,0.5) node[left] {$V_I$};
+    \draw [dotted] (0,2) -- (5,2);
+  \end{tikzpicture}
+  \caption{Función $v(t) = V_F + (V_I - V_F) e^{-t/\tau}, \ t \ge 0$ para $t>0$.}
+\label{fig:expGen}
+\end{figure}
+
+\section{Valor medio y efectivo}
+
+\begin{defi}[Valor medio]
+  Dado $v(t)$ periódico con período $T$, el valor medio se define como
+  %
+  \begin{equation}
+    \label{eq:vmedio}
+    v_{\text{medio}}  = \frac{1}{T} \int_0^T v(t) \ dt.
+  \end{equation}
+\end{defi}
+
+El valor medio de $v(t)$ también se denota como $\bar{v}$ o $\langle v(t)
+\rangle$. Como $v(t)$ es periódico, los rangos de la integral en la ecuación
+\eqref{eq:vmedio} se pueden desplazar en un valor arbitrario $t_0 \in \real$:
+%
+\begin{equation}
+  v_{\text{medio}}  = \frac{1}{T} \int_{t_0}^{t_0+T} v(t) \ dt.
+\end{equation}
+
+\begin{defi}[Valor efectivo]
+  Dado $v(t)$ periódico con período $T$, el valor efectivo se define como
+  %
+  \begin{equation}
+    \label{eq:vmedio}
+    v_{\text{ef}}  = \sqrt{\frac{1}{T} \int_0^T v^2(t) \ dt}.
+  \end{equation}
+  %
+\end{defi}
+
+El valor efectivo también se conoce como \emph{valor eficaz}, o por su nombre
+en inglés \emph{Root Mean Square (RMS) value}, y también se denota como
+$v_{\text{RMS}}$.
+
+\begin{ex}[Valor medio de una sinusoide]
+  Calcule el valor medio de $v(t) = A cos(\omega t)$.
+
+  En este caso el período de $v(t)$ es $T = \frac{2\pi}{\omega}$. El valor
+  medio es
+  %
+  \begin{equation*}
+    v_{\text{medio}} = \frac{A \omega}{2\pi} \int_0^{\frac{2\pi}{\omega}} cos(\omega t)
+      \ dt = \frac{A}{2\pi} sin(\omega t) \biggr|_0^{\frac{2\pi}{\omega}} = 0.
+  \end{equation*}
+\end{ex}
+
+\begin{ex}[Valor eficaz de una sinusoide]
+  Calcule el valor eficaz de $v(t) = A cos(\omega t)$.
+
+  Usando la identidad trigonométrica $\cos^2(x) = \frac{1}{2}(1 + \cos(2x))$,
+  el valor eficaz se calcula como
+  \begin{equation*}
+    \begin{split}
+      v_{\text{RMS}} &= \sqrt{\frac{1}{T} \int_0^T A^2 \cos^2(\omega t) \ dt}\\
+      &= A \sqrt{\frac{1}{T} \int_0^T \frac{1}{2} \ dt +
+        \frac{1}{T} \int_0^T \cos(2\omega t) \ dt}\\
+      &= A \sqrt{\frac{1}{2T} T + 0} \\
+      &= \frac{A}{\sqrt{2}}.
+    \end{split}
+  \end{equation*}
+\end{ex}
+
+El valor eficaz es útil para calcular la potencia media disipada por una
+resistencia cuando el voltaje entre sus terminales es una función periódica.
+Dado el voltaje periódico $v(t)$ entre los terminales de una resistencia de
+valor $R$, la potencia instantánea disipada por la resistencia es
+%
+\begin{equation}
+  p(t) = \frac{v^2(t)}{R}.
+\end{equation}
+%
+El valor medio de la potencia instantánea es
+%
+\begin{equation*}
+  \begin{split}
+    p_{\text{medio}} &= \frac{1}{T} \int_0^T p(t) \ dt \\
+    &= \frac{1}{R T} \int_0^T v^2(t) \ dt \\
+    &= \frac{v^2_{RMS}}{R}.
+  \end{split}
+\end{equation*}
+%
+Usando el mismo razonamiento, se concluye que si una corriente periódica $i(t)$
+pasa por una resistencia de valor $R$, la potencia disipada por la resistencia
+es
+%
+\begin{equation*}
+   p_{\text{medio}} = i^2_{RMS} R.
+ \end{equation*}
+
+\section{Traslación y dilatación}
+
+\begin{figure}[ht!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=1.1]
+  \matrix[column sep=0.5cm]{
+    \draw [->] (-2.1,0) -- (2.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[right] {$v(t)$};
+    \draw (2.1,0) node[right] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (-0.5,0)
+    -- (0,1) -- (0.5,0) -- (2,0); &
+    %
+    \draw [->] (-2.1,0) -- (2.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[right] {$v(t-T)$};
+    \draw (2.1,0) node[right] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (0,0)
+    -- (0.5,1) -- (1,0) -- (2.0,0); \\
+    %
+        \draw [->] (-2.1,0) -- (2.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[right] {$v(t/a)$};
+    \draw (2.1,0) node[right] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (-1,0)
+    -- (0,1) -- (1,0) -- (2,0); &
+    %
+    \draw [->] (-2.1,0) -- (2.1,0); % x-axis
+    \draw [->] (0,-0.5) -- (0,1.5); % y-axis
+    \draw (0,1.5) node[right] {$v(\frac{t-T}{a})$};
+    \draw (2.1,0) node[right] {$t$};
+    \draw [blue, ultra thick] (-2,0) -- (-0.5,0)
+    -- (0.5,1) -- (1.5,0) -- (2,0); \\
+    };
+  \end{tikzpicture}
+  \caption{Traslación y dilatación de $v(t)$.}
+\label{fig:trans}
+\end{figure}
+
+Dada la señal $v(t)$ y el parámetro $T > 0$ medido en segundos, $v(t-T)$ es una
+señal con la misma forma que $v(t)$, pero trasladada $T$ segundos hacia la
+derecha en el eje del tiempo. Podemos decir que $v(t-T)$ es igual a $v(t)$
+retardada $T$ segundos. Análogamente, $v(t + T)$ es una señal con la misma
+forma que $v(t)$, pero trasladad $T$ segundos hacia la izquierda en el eje del
+tiempo. Podemos decir que $v(t-T)$ es igual a $v(t)$ adelantada $T$ segundos.
+
+
+Dada la señal $v(t)$ y el parámetro $a > 1$ medido en segundos, $v(t/a)$
+corresponde a una versión dilatada en el tiempo de $v(t)$, y $v(at)$
+corresponde a una versión comprimida en el tiempo de $v(t)$.
+
+
+La Figura~\ref{fig:trans} muestra un ejemplo de translación, de dilatación y de
+la combinación de la translación y dilatación.
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% Local IspellDict: castellano
+%%% End:
