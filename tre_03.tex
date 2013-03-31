@@ -1,0 +1,419 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[paper=letter, fontsize=11pt]{scrartcl}
+\usepackage[spanish,es-noquoting]{babel}
+%\usepackage[english]{babel}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[utf8]{inputenc}
+\usepackage{fourier} % Use the Adobe Utopia font for the document
+
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered,
+                                                 % the default font and small
+                                                 % caps
+\usepackage[american]{circuitikz}
+\usetikzlibrary{matrix}
+
+\usepackage{subfig}
+\usepackage{fancyhdr} % Custom headers and footers
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks=true,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=blue
+}
+
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom
+                       % headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as
+             % the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+% \numberwithin{equation}{section} % Number equations within sections (i.e. 1.1,
+%                                  % 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2,
+%                                % 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2,
+%                               % 2.1, 2.2 instead of 1, 2, 3, 4)
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule
+                                                % command with 1 argument of
+                                                % height
+
+\title{
+\normalfont \normalsize
+\textsc{Universidad de Valparaíso, Departamento de Ingeniería Biomédica} \\
+[25pt]
+%\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Teoría de Redes \\ % The assignment title
+\LARGE Circuitos de 1\ts{er} Orden
+%\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Alejandro Weinstein}
+
+\date{\normalsize 1\ts{er} semestre 2013} % Today's date or a custom date
+
+\input{../macros.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Descarga de un condensador}
+
+El circuito que sigue muestra un condensador de valor $C$ con condición inicial
+$v_C(0)=V_0$, descargándose a través de una resistencia de valor $R$.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[C=$C$, v>=$v_C$, i<=$i_c$] (0,3)
+    to[short] (3,3)
+    to[R=$R$, i>^=$i_R$, v=$v_R$] (3,0)
+    to[short] (0,0);
+  \end{circuitikz}
+  \caption{Descarga de un condensador.}
+\end{figure}
+
+Por LCK y LVK, $i_c = - i_R$ y $v_C = v_R$, respectivamente. Además, $i_c = C
+\frac{dv_C}{dt}$ e $i_R = \frac{v_R}{R}$. Combinando estas relaciones obtenemos
+%
+\begin{gather}
+  C\frac{dv_C}{dt} + \frac{v_C}{R} = 0 \\
+  \frac{dv_C}{dt} + \frac{v_C}{RC} = 0.   \label{eq:Cdesc}
+\end{gather}
+%
+La ecuación~\eqref{eq:Cdesc}, junto a la condición inicial $v_C(0)=V_0$, es una
+ecuación diferencial lineal de 1\ts{er} orden. Resolver esta ecuación equivale
+a encontrar una función en el tiempo $v_C(t)$, $t>=0$, que satisfaga
+simultáneamente la condición inicial y la ecuación~\eqref{eq:Cdesc}. En otras
+palabras, para encontrar como evoluciona el voltaje en el condensador en la
+medida que el tiempo transcurre, debemos resolver esta ecuación diferencial.
+
+En este caso resolvemos la ecuación diferencial ejecutando los siguientes
+pasos. Primero asumimos que el voltaje en el condensador es de la forma $v_C(t)
+= Ae^{st}$, con $A$ y $s$ constantes de valor desconocido. Luego reemplazamos
+esta expresión en la ecuación que queremos resolver. Combinando este resultado
+con la condición inicial, encontramos los valores de $A$ y $s$.
+
+Reemplazando $v_C(t) = Ae^{st}$ en la ecuación~\eqref{eq:Cdesc} obtenemos
+%
+\begin{equation}
+  \begin{split}
+    sA e^{st} + \frac{A}{RC} e^{st} &= 0 \\
+    A \left(s + \frac{1}{RC} \right) e^{st} &= 0.
+  \end{split}
+\end{equation}
+%
+Como $e^{st}$ es mayor que cero, y $A$ tampoco puede ser cero porque en ese
+caso no se podría satisfacer la condición inicial, la única forma de satisfacer
+esta ecuación es con $s = -\frac{1}{RC}$. Como $v_C(0) = A$, también podemos
+concluir que para satisfacer la condición inicial debemos fijar $A=V_0$. En
+resumen,
+%
+\begin{equation}
+  v_C(t) = V_0 e^{-t/RC}, \ t \geq 0.
+\end{equation}
+
+En este caso la constante de tiempo de la exponencial decrecientes es
+$\tau=RC$, y podemos concluir que al condensador le toma alrededor de $4RC$
+segundos descargarse a través de la resistencia. La figura~\ref{fig:Cdesc}
+muestra el voltaje en el condensador en función del tiempo.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=4]
+    \draw [->] (-0.1,0) -- (5.1,0); % x-axis
+    \draw [->] (0,-0.1) -- (0,1.2); % y-axis
+    \draw (0,1.2) node[right] {$v_C(t)$};
+    \draw (5.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=0:5, samples=100] plot
+    (\x, {exp(-\x)});
+    \draw (0,1) node[left] {$V_0$} (4,0) node[below] {$4RC$};
+  \end{tikzpicture}
+  \caption{Voltaje en un condensador durante su descarga a través de una
+    resistencia. }
+\label{fig:Cdesc}
+\end{figure}
+
+\section{Carga de un condensador}
+
+El circuito que sigue muestra un condensador inicialmente descargado, \ie
+$v_C(0)=0$, que se carga a través de la fuente de voltaje continua de valor $V$
+en serie con una resistencia de valor $R$.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[V=$V$] (0,3)
+    to[R=$R$] (3,3)
+    to[C=$C$, i>^=$i$, v=$v_C$] (3,0)
+    to[short] (0,0);
+  \end{circuitikz}
+  \caption{Carga de un condensador.}
+\end{figure}
+
+Usando LVK obtenemos
+%
+\begin{equation}
+  R i + v_C = V.
+\end{equation}
+%
+Como $i = C\frac{dv_C}{dt}$, podemos escribir
+%
+\begin{gather}
+  R C \frac{dv_C}{dt} + v_C = V \\
+  \frac{dv_C}{dt} + \frac{v_C}{RC} = \frac{V}{RC} \label{eq:CCarg}.
+\end{gather}
+
+En este caso la solución de la ecuación diferencial está formada por la
+combinación de la solución particular y la solución homogénea. La solución
+particular es el voltaje $v_C$ que aparece entre los terminales del condensador
+en estado estacionario, en este caso,
+%
+\begin{equation}
+  v_p(t) = V.
+\end{equation}
+%
+La solución homogénea está dada por el voltaje que aparece cuando no hay
+fuentes independientes. De la sección anterior sabemos que éste es de la forma
+%
+\begin{equation}
+  v_h(t) = Ae^{-t/RC}.
+\end{equation}
+%
+Combinando la solución particular con la homogénea obtenemos
+%
+\begin{equation}
+  v_c(t) = v_p(t) + v_h(t) = V + A e^{-t/RC}.
+\end{equation}
+%
+Para satisfacer la condición inicial se debe satisfacer que
+%
+\begin{equation}
+  v_C(0) = V + A = 0 \Rightarrow A = -V.
+\end{equation}
+
+Finalmente podemos escribir
+%
+\begin{equation}
+  v_c(t) = V - Ve^{-t/RC} \quad t \geq 0.
+\end{equation}
+
+La Figura~\ref{fig:Ccarg} muestra el voltaje en el condensador en función del
+tiempo. Al igual que durante la descarga, al condensador le toma alrededor de
+$4RC$ segundos cargarse a través de la resistencia.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=4]
+    \draw [->] (-0.1,0) -- (5.1,0); % x-axis
+    \draw [->] (0,-0.1) -- (0,1.2); % y-axis
+    \draw (0,1.2) node[right] {$v_C(t)$};
+    \draw (5.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=0:5, samples=100] plot
+    (\x, {1 - exp(-\x)});
+    \draw [dotted] (0,1) -- (5,1);
+    \draw (0,1) node[left] {$V$} (4,0) node[below] {$4RC$};
+  \end{tikzpicture}
+  \caption{Voltaje en un condensador durante su descarga a través de una
+    resistencia. }
+\label{fig:Ccarg}
+\end{figure}
+
+\section{Descarga de un inductor}
+
+El circuito que sigue muestra un inductor de valor $L$ con condición inicial
+$i_L(0)=I_0$, descargándose a través de una resistencia de valor $R$.
+
+
+Por LVK $v_L + v_R = 0$. Además, $v_L = L \frac{di_L}{dt}$ y $v_R = R
+i_L$. Combinando estas relaciones obtenemos
+%
+\begin{gather}
+  L\frac{di_L}{dt} + R i_L = 0 \\
+  \frac{di_L}{dt} + \frac{Ri_L}{L} = 0.   \label{eq:Ldesc}
+\end{gather}
+%
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[L=$L$, v>=$v_L$, i<=$i_L$] (0,3)
+    to[short] (3,3)
+    to[R=$R$, v>=$v_R$] (3,0)
+    to[short] (0,0);
+  \end{circuitikz}
+  \caption{Descarga de un inductor.}
+\end{figure}
+
+La ecuación~\eqref{eq:Ldesc}, junto a la condición inicial $i_L(0)=V_0$, es una
+ecuación diferencial lineal de 1\ts{er} orden. Al igual que como hicimos para
+resolver la ecuación diferencial asociada a la descarga del condensador, en
+este caso resolveremos la ecuación diferencial ejecutando los siguientes
+pasos. Primero asumimos que la corriente en el inductor es de la forma $i_L(t)
+= Ae^{st}$, con $A$ y $s$ constantes de valor desconocido. Luego reemplazamos
+esta expresión en la ecuación que queremos resolver. Combinando este resultado
+con la condición inicial, encontramos los valores de $A$ y $s$.
+
+Reemplazando $i_L(t) = Ae^{st}$ en la ecuación~\eqref{eq:Ldesc} obtenemos
+%
+\begin{equation}
+  \begin{split}
+    sA e^{st} + \frac{AR}{L} e^{st} &= 0 \\
+    A \left(s + \frac{R}{L} \right) e^{st} &= 0.
+  \end{split}
+\end{equation}
+%
+Como $e^{st}$ es mayor que cero, y $A$ tampoco puede ser cero porque en ese
+caso no se podría satisfacer la condición inicial, la única forma de satisfacer
+esta ecuación es con $s = -\frac{R}{L}$. Como $i_L(0) = A$, también podemos
+concluir que para satisfacer la condición inicial debemos fijar $A=I_0$. En
+resumen,
+%
+\begin{equation}
+  i_L(t) = I_0 e^{-Rt/L}, \ t \geq 0.
+\end{equation}
+
+En este caso la constante de tiempo de la exponencial decrecientes es
+$\tau=L/R$, y podemos concluir que al inductor le toma alrededor de $4L/R$
+segundos descargarse a través de la resistencia. La figura~\ref{fig:Ldesc}
+muestra el voltaje en el condensador en función del tiempo.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=4]
+    \draw [->] (-0.1,0) -- (5.1,0); % x-axis
+    \draw [->] (0,-0.1) -- (0,1.2); % y-axis
+    \draw (0,1.2) node[right] {$i_L(t)$};
+    \draw (5.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=0:5, samples=100] plot
+    (\x, {exp(-\x)});
+    \draw (0,1) node[left] {$I_0$} (4,0) node[below] {$4L/R$};
+  \end{tikzpicture}
+  \caption{Corriente en un inductor durante su descarga a través de una
+    resistencia. }
+\label{fig:Ldesc}
+\end{figure}
+
+\section{Carga de un inductor}
+
+El circuito que sigue muestra un inductor inicialmente descargado, \ie
+$v_L(0)=0$, que se carga a través de la fuente de voltaje continua de valor $V$
+en serie con una resistencia de valor $R$.
+
+\begin{figure}[h!]
+  \centering
+  \begin{circuitikz}
+    \draw (0,0) to[V=$V$] (0,3)
+    to[R=$R$] (3,3)
+    to[L=$L$, i>^=$i_L$, v=$v_L$] (3,0)
+    to[short] (0,0);
+  \end{circuitikz}
+  \caption{Carga de un inductor.}
+\end{figure}
+
+Usando LVK obtenemos
+%
+\begin{equation}
+  v_L + R i_L  = V.
+\end{equation}
+%
+Como $v_L = L\frac{di_L}{dt}$, podemos escribir
+%
+\begin{gather}
+  L \frac{di_L}{dt} + R i_L = V \\
+  \frac{di_L}{dt} + \frac{R i_L}{L} = \frac{V}{L}. \label{eq:LCarg}
+\end{gather}
+
+Al igual que el caso de la carga del condensador, la solución de la ecuación
+diferencial está formada por la combinación de la solución particular y la
+solución homogénea. La solución particular es la corriente $i_L$ que aparece a
+través del inductor en estado estacionario, en este caso,
+%
+\begin{equation}
+  i_p(t) = \frac{V}{R}.
+\end{equation}
+%
+La solución homogénea está dada por la corriente que aparece cuando no hay
+fuentes independientes. De la sección anterior sabemos que éste es de la forma
+%
+\begin{equation}
+  i_h(t) = Ae^{-Rt/L}.
+\end{equation}
+%
+Combinando la solución particular con la homogénea obtenemos
+%
+\begin{equation}
+  i_L(t) = i_p(t) + i_h(t) = \frac{V}{R} + A e^{-Rt/L}.
+\end{equation}
+%
+Para satisfacer la condición inicial se debe cumplir
+%
+\begin{equation}
+  i_L(0) = \frac{V}{R} + A = 0 \Rightarrow A = -\frac{V}{R}.
+\end{equation}
+
+Finalmente podemos escribir
+%
+\begin{equation}
+  i_L(t) = \frac{V}{R} - \frac{V}{R}e^{-Rt/L} \quad t \geq 0.
+\end{equation}
+
+La Figura~\ref{fig:Lcarg} muestra la corriente en el inductor en función del
+tiempo. Al igual que durante la descarga, al inductor le toma alrededor de
+$4L/R$ segundos cargarse a través de la resistencia.
+
+\begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}[xscale=1.5, yscale=4]
+    \draw [->] (-0.1,0) -- (5.1,0); % x-axis
+    \draw [->] (0,-0.1) -- (0,1.2); % y-axis
+    \draw (0,1.2) node[right] {$i_L(t)$};
+    \draw (5.1,0) node[right] {$t$};
+    \draw [blue, ultra thick, domain=0:5, samples=100] plot
+    (\x, {1 - exp(-\x)});
+    \draw [dotted] (0,1) -- (5,1);
+    \draw (0,1) node[left] {$\frac{V}{R}$} (4,0) node[below] {$4L/R$};
+  \end{tikzpicture}
+  \caption{Corriente en un inductor durante su descarga a través de una
+    resistencia. }
+\label{fig:Lcarg}
+\end{figure}
+
+\section{Análisis en estado estacionario}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% Local IspellDict: castellano
+%%% End:
